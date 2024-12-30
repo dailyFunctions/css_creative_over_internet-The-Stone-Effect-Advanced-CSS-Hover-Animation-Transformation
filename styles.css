@@ -1,0 +1,144 @@
+/* Define custom properties using @property */
+@property --scale {
+    syntax: '<number>';
+    initial-value: 1;
+    inherits: false;
+}
+
+@property --opacity {
+    syntax: '<number>';
+    initial-value: 1;
+    inherits: false;
+}
+
+@property --color {
+    syntax: '<color>';
+    initial-value: #777;
+    inherits: true;
+}
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #2d2d2d;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.property-set {
+    --scale: 1;
+    --petrify-opacity: 1;
+    --stone-color: #777;
+}
+
+/* Medusa Container */
+.medusa {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.medusa h1 {
+    font-size: 3em;
+    color: #0f0;
+    text-transform: uppercase;
+}
+
+.medusa p {
+    margin-top: 10px;
+    font-size: 1.5em;
+}
+
+.stone-effect {
+    width: 300px;
+    height: 300px;
+    margin: 50px 0 0 140px;
+    background: #777; /* Start with a stone color */
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    transform: scale(var(--scale));
+    filter: grayscale(100%) contrast(90%) brightness(50%);
+    opacity: var(--petrify-opacity);
+    transition: transform 0.5s ease-in-out, background-color 1s ease-in-out, filter 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.stone-effect::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+    opacity: 0.4;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transform: scale(0);
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
+.stone-effect:hover {
+    background: #aaa; /* Lighter stone on hover */
+    --scale: 1.2;
+    --petrify-opacity: 1;
+    --stone-color: #bbb;
+}
+
+.stone-effect:hover::before {
+    transform: scale(1);
+    opacity: 0.7;
+}
+
+.stone-effect::after {
+    content: 'Petrified by Medusa!';
+    color: var(--stone-color);
+    font-size: 2em;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+
+.stone-effect:hover::after {
+    opacity: 1;
+}
+
+/* Smooth gaze effect */
+@keyframes gaze-effect {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.stone-effect:hover {
+    animation: gaze-effect 1s ease-in-out forwards;
+}
+
+.stone-effect:hover::after {
+    content: 'Petrified by Medusa!';
+    color: #bbb;
+    opacity: 1;
+    font-size: 2em;
+    font-weight: bold;
+    transition: opacity 1s;
+}
